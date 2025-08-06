@@ -1,12 +1,10 @@
 public class Queue<T> {
     private T[] array;
     private int size;
-    private int head;
     private int capacity;
     
     public Queue(int capacity) {
         array = (T[]) new Object[size]; //Criei meu array
-        this.head = -1; //Cabeça
         this.capacity = capacity; //Tamanho definidio no ínicio
         this.size = 0;; //Tamanho atual de elementos do array
     }
@@ -54,9 +52,4 @@ public class Queue<T> {
     public boolean isEmpty() {
         return size == 0;
     }
-
-
-
-    
-
 }
