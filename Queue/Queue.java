@@ -10,7 +10,7 @@ public class Queue<T> {
     }
 
     public void enqueue(T element) {
-        if (isFull()) {
+        if (QueueisFull()) {
             throw new IllegalArgumentException("Queue is full");
         }
         size++;
@@ -19,7 +19,7 @@ public class Queue<T> {
     }
 
     public T dequeue() {
-        if (isEmpty()) {
+        if (QueueisEmpty()) {
             throw new IllegalArgumentException("Queue is empty");
         }
 
@@ -37,7 +37,7 @@ public class Queue<T> {
     }
 
     public T peek() {
-        if (isEmpty()) {
+        if (QueueisEmpty()) {
             throw new IllegalArgumentException("Queue is empty");
         }
 
@@ -45,11 +45,11 @@ public class Queue<T> {
     }
 
 
-    public boolean isFull() {
+    public boolean QueueisFull() {
         return capacity == size;
     }
 
-    public boolean isEmpty() {
+    public boolean QueueisEmpty() {
         return size == 0;
     }
 }

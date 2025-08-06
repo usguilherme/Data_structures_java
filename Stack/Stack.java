@@ -12,7 +12,7 @@ public class Stack<T> {
     }
 
     public void push(T element) {
-        if (isFull()) {
+        if (stackisFull()) {
             throw new IllegalArgumentException("Stack is full");
         }
         head++;
@@ -21,7 +21,7 @@ public class Stack<T> {
     }
 
     public T pop() {
-        if (isEmpty()) {
+        if (stackisEmpty()) {
             throw new IllegalArgumentException("Stack is empty");
         }
         T element = array[head];
@@ -32,10 +32,10 @@ public class Stack<T> {
     }
 
     public T peek() {
-        if (isEmpty()) {
+        if (stackisEmpty()) {
             throw new IllegalArgumentException("Stack is empty");
         }
-        
+
         return array[head];
     }
 
@@ -44,11 +44,11 @@ public class Stack<T> {
     }
 
 
-    public boolean isEmpty() {
+    public boolean stackisEmpty() {
         return head == -1;
     }
 
-    public boolean isFull() {
+    public boolean stackisFull() {
         return head + 1 == capacity;
     }
 
