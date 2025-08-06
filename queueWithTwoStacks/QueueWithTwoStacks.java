@@ -28,6 +28,18 @@ public class QueueWithTwoStacks<T> {
         return outputStack.pop();
     }
 
+    public boolean contais(T element) {
+        for (T : inputStack) {
+            if T == element return true;
+        }
+
+        for (T : outputStack) {
+            if T == element return true;
+        }
+
+        return false;
+    }
+
     public boolean isFull() {
         return inputStack.size() + outputStack.size() == capacity
     }
@@ -35,9 +47,5 @@ public class QueueWithTwoStacks<T> {
     public boolean isEmpty() {
         return inputStack.isEmpty() && outputStack.isEmpty();
     }
-
-    
-    
-
 
 }
