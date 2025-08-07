@@ -81,7 +81,7 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
     public T[] toArray() {
         List<T> listAux = new ArrayList<>();
         toArray(listAux);
-        return (T[]) listAux.toArray();
+        return (T[]) listAux.toArray()
     }
 
     private void toArray(List<T> listAux) {
@@ -95,26 +95,57 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
 
     @Override
     public void insertFirst(T element) {
-        // TODO: Insere um elemento no início da lista
-        throw new UnsupportedOperationException("Unimplemented method 'insertFirst'");
+        if (element == null) {
+            throw new IllegalArgumentException("Elemento não pode ser nulo");
+        }
+        if (isEmpty()) {
+            this.data = element;
+            this.next = new RecursiveSingleLinkedListImpl<>();
+        } else {
+            RecursiveSingleLinkedListImpl<T> newNode = new RecursiveSingleLinkedListImpl<>();
+            newNode.data = this.data; //Criando um novo node com as variaveis atuais
+            newNode.next = this.next; //Criando um novo node com as variaveis atuais
+
+            this.data = element;
+            this.next = newNode; //coloquei meu node que era o atual, como o segundo primeiro da lista e etc...
+        }
+
     }
 
     @Override
     public void insertLast(T element) {
-        // TODO: Insere um elemento no final da lista
-        throw new UnsupportedOperationException("Unimplemented method 'insertLast'");
+        if (element == null) {
+            throw new IllegalArgumentException("O argumento não pode ser nulo");
+        }
+        if (isEmpty()) { //como está vázia, logo deve também inserir no ínicio, pois o inicio e o fim são as mesmas coisas
+            this.data = element;
+            this.next = new RecursiveSingleLinkedListImpl<>();
+        } else { //Minha lista não é vázia
+            this.next.insertLast(element); //Chamando minha função recursiva novamente, até eu chegar no último elemento e depois adiciona-lo
+        }
     }
 
     @Override
     public void removeFirst() {
-        // TODO: Remove o primeiro elemento da lista
-        throw new UnsupportedOperationException("Unimplemented method 'removeFirst'");
+        if (isEmpty()) {
+            throw new IllegalArgumentException("Não é possível remover algo, em uma linkedlist vázia");
+        }
+        this.data = this.next.data;
+        this.next = this.next.next;
+
     }
 
     @Override
     public void removeLast() {
-        // TODO: Remove o último elemento da lista
-        throw new UnsupportedOperationException("Unimplemented method 'removeLast'");
+        if (this.isEmpty()) {
+            throw new IllegalArgumentException("LinkedList vázia");
+        }
+        if (this.next.isEmpty()) {
+            this.data = null;
+            this.next = null;
+        } else {
+            this.next.removeLast();
+        }
     }
 
     /* ====================== NÍVEL DIFÍCIL ====================== */
