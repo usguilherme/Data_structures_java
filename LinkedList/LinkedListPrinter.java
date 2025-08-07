@@ -10,7 +10,7 @@ public class LinkedListPrinter<T> {
     // Método para imprimir a lista ligada de trás para frente (recursivamente)
     public void printListReverseRecursively(ListNode<T> head) {
         if (head == null) return; //Caso base, lista acabou
-        printListReverseRecursively(head.next); //Chamada recursiva para ir pro final da lista, parando no caso brase
+        printListReverseRecursively(head.next); //Chamada recursiva para ir pro final da lista, parando no caso base
         System.out.println(head.data); //Printando data de trás pra frente
     }
 
@@ -35,13 +35,22 @@ public class LinkedListPrinter<T> {
             return new ListNode<>(element); //Crio um novo nó, com a data(element), e com o next null
         }
         head.next = insertAtEnd(head.next, element); //chamando minha função recursiva, até chegar no final da lista e adicionar um nó novo, com o element e o next null
-        return head; //Mantendo o head da lista, pois eu apenas inseri um elemento, e não coloquei um head novo.
+        return head; //Mantendo o head da lista, pois eu apenas inseri um elemento, e não coloquei um head novo.  
+    }
 
+    // Remove o primeiro nó com o valor 'element' da lista e retorna o head atualizado
+    public ListNode<T> removeElement(ListNode<T> head, T element) {
+        if (head == null) return null; //Caso base, minha condição de parada, pois minha lista acabou
 
-
-
-    
-}
-
-
+        if (head.data.equals(element)) { //meu nó atual, achou o elemento na sua data
+            if (head.next != null) { //meu nó atual não é o último da lista
+                head.data = head.next.data;
+                head.next = head.next.next;
+            } else { //meu nó atual é o último elemento da lista
+                return null;
+            }
+        }
+        head.next = removeElement(head.next, element);
+        return head;
+    }
 }
