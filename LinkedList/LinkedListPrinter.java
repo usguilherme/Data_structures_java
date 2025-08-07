@@ -51,6 +51,6 @@ public class LinkedListPrinter<T> {
             }
         }
         head.next = removeElement(head.next, element); //Atualizo meu head
-        return head; //Retorno meu head
+        return head; //Retorno meu head;
     }
 }

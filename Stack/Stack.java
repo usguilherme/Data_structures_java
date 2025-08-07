@@ -13,7 +13,7 @@ public class Stack<T> {
     }
 
     public void push(T element) {
-        if (stackIsFull()) { // CORRIGIDO: nome padronizado
+        if (isFull()) { // CORRIGIDO: nome padronizado
             throw new IllegalArgumentException("Stack is full");
         }
         head++;
@@ -22,7 +22,7 @@ public class Stack<T> {
     }
 
     public T pop() {
-        if (stackIsEmpty()) { // CORRIGIDO: nome padronizado
+        if (isEmpty()) { // CORRIGIDO: nome padronizado
             throw new IllegalArgumentException("Stack is empty");
         }
         T element = array[head];
@@ -33,10 +33,10 @@ public class Stack<T> {
     }
 
     public T peek() {
-        if (stackIsEmpty()) { // CORRIGIDO: nome padronizado
+        if (isEmpty()) { // CORRIGIDO: nome padronizado
             throw new IllegalArgumentException("Stack is empty");
         }
-
+        
         return array[head];
     }
 
@@ -44,12 +44,19 @@ public class Stack<T> {
         return size;
     }
 
-    public boolean stackIsEmpty() { // CORRIGIDO: nome padronizado
+    public boolean isEmpty() { // CORRIGIDO: nome padronizado
         return head == -1;
     }
 
-    public boolean stackIsFull() { // CORRIGIDO: nome padronizado
+    public boolean isFull() { // CORRIGIDO: nome padronizado
         return head + 1 == capacity;
     }
-    
+
+    // Retorna o elemento no índice passado
+    public T get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Índice inválido: " + index);
+        }
+        return array[index];
+    }
 }

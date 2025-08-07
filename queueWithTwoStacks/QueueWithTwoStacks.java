@@ -20,8 +20,8 @@
         if (isEmpty()) {
             throw new IllegalArgumentException("Queue is empty");
         }
-        if (outputStack.stackIsEmpty()) { //Se minha pilha de saída estiver vázia, tenho que inverter a ordem
-            while (!inputStack.stackIsEmpty()) {
+        if (outputStack.isEmpty()) { //Se minha pilha de saída estiver vázia, tenho que inverter a ordem
+            while (!inputStack.isEmpty()) {
                 outputStack.push(inputStack.pop());
             }
         }
@@ -29,49 +29,30 @@
     }
 
     public boolean contains(T element) {
-        // Verificar na inputStack sem destruir a pilha
-        Stack<T> tempStack = new Stack<T>(capacity);
-        boolean found = false;
-        
-        // Verifica inputStack
-        while (!inputStack.stackIsEmpty()) {
-            T current = inputStack.pop();
-            tempStack.push(current);
-            if (current != null && current.equals(element)) {
-                found = true;
-            }
+    if (isEmpty()) {
+        throw new IllegalArgumentException("Queue is empty");
+    }
+    for (int i = 0; i < inputStack.size(); i++) {
+         if (inputStack.get(i).equals(element)) {
+            return true;
         }
-        
-        // Restaura inputStack
-        while (!tempStack.stackIsEmpty()) {
-            inputStack.push(tempStack.pop());
-        }
-        
-        // Se não encontrou, verifica outputStack
-        if (!found) {
-            while (!outputStack.stackIsEmpty()) {
-                T current = outputStack.pop();
-                tempStack.push(current);
-                if (current != null && current.equals(element)) {
-                    found = true;
-                }
-            }
-            
-            // Restaura outputStack
-            while (!tempStack.stackIsEmpty()) {
-                outputStack.push(tempStack.pop());
-            }
-        }
-        
-        return found;
     }
 
+    for (int j = 0; j < outputStack.size(); j++) {
+        if (outputStack.get(j).equals(element)) {
+            return true;
+        }
+    }
+
+        return false;
+    }
+    
     public boolean isFull() {
         return inputStack.size() + outputStack.size() == capacity;
     }
 
     public boolean isEmpty() {
-        return inputStack.stackIsEmpty() && outputStack.stackIsEmpty();
+        return inputStack.isEmpty() && outputStack.isEmpty();
     }
     
     public int size() {
