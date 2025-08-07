@@ -4,6 +4,7 @@ public class Stack<T> {
     private int capacity;
     private int size;
     
+    @SuppressWarnings("unchecked")
     public Stack(int capacity) {
         this.array = (T[]) new Object[capacity];
         this.capacity = capacity;
@@ -12,7 +13,7 @@ public class Stack<T> {
     }
 
     public void push(T element) {
-        if (stackisFull()) {
+        if (stackIsFull()) { // CORRIGIDO: nome padronizado
             throw new IllegalArgumentException("Stack is full");
         }
         head++;
@@ -21,7 +22,7 @@ public class Stack<T> {
     }
 
     public T pop() {
-        if (stackisEmpty()) {
+        if (stackIsEmpty()) { // CORRIGIDO: nome padronizado
             throw new IllegalArgumentException("Stack is empty");
         }
         T element = array[head];
@@ -32,7 +33,7 @@ public class Stack<T> {
     }
 
     public T peek() {
-        if (stackisEmpty()) {
+        if (stackIsEmpty()) { // CORRIGIDO: nome padronizado
             throw new IllegalArgumentException("Stack is empty");
         }
 
@@ -43,16 +44,12 @@ public class Stack<T> {
         return size;
     }
 
-
-    public boolean stackisEmpty() {
+    public boolean stackIsEmpty() { // CORRIGIDO: nome padronizado
         return head == -1;
     }
 
-    public boolean stackisFull() {
+    public boolean stackIsFull() { // CORRIGIDO: nome padronizado
         return head + 1 == capacity;
     }
-
-
-
     
 }

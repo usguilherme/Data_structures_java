@@ -3,23 +3,23 @@ public class Queue<T> {
     private int size;
     private int capacity;
     
+    @SuppressWarnings("unchecked")
     public Queue(int capacity) {
-        array = (T[]) new Object[size]; //Criei meu array
+        array = (T[]) new Object[capacity]; //Criei meu array
         this.capacity = capacity; //Tamanho definidio no ínicio
-        this.size = 0;; //Tamanho atual de elementos do array
+        this.size = 0; //Tamanho atual de elementos do array
     }
 
     public void enqueue(T element) {
-        if (QueueisFull()) {
+        if (queueIsFull()) {
             throw new IllegalArgumentException("Queue is full");
         }
-        size++;
         array[size] = element;
-
+        size++;
     }
 
     public T dequeue() {
-        if (QueueisEmpty()) {
+        if (queueIsEmpty()) {
             throw new IllegalArgumentException("Queue is empty");
         }
 
@@ -30,26 +30,32 @@ public class Queue<T> {
     }
 
     public void shiftLeft() {
-        for (int i = 0; i < capacity - 1; i++) {
+        for (int i = 0; i < size - 1; i++) {
             array[i] = array[i + 1];
         }
-        array[capacity - 1] = null;
+        if (size > 0) {
+            array[size - 1] = null;
+        }
     }
 
     public T peek() {
-        if (QueueisEmpty()) {
+        if (queueIsEmpty()) {
             throw new IllegalArgumentException("Queue is empty");
         }
 
         return array[0];
     }
 
-
-    public boolean QueueisFull() {
+    public boolean queueIsFull() {
         return capacity == size;
     }
 
-    public boolean QueueisEmpty() {
+    public boolean queueIsEmpty() {
         return size == 0;
     }
+
+    public int size() { // Método adicional que pode ser útil
+        return size;
+    }
+    
 }
