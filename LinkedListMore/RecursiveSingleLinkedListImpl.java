@@ -173,9 +173,9 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
                 this.data = element;
                 this.next = newNode;
             }
-        } else {
-            if (this.next == null) {
-                this.next = new RecursiveSingleLinkedListImpl<>();
+        } else {   
+            if (this.isEmpty()) { //Pois eu tenho que chegar na posição correta e garantir que até lá nao é vazio
+                throw new IndexOutOfBoundsException("Posição maior que o tamanho da lista");
             }
             this.next.insertPosition(position -1, element);
         }
