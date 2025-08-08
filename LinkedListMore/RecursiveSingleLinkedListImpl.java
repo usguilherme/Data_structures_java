@@ -81,7 +81,7 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
     public T[] toArray() {
         List<T> listAux = new ArrayList<>();
         toArray(listAux);
-        return (T[]) listAux.toArray()
+        return (T[]) listAux.toArray();
     }
 
     private void toArray(List<T> listAux) {
@@ -150,22 +150,74 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
 
     /* ====================== NÍVEL DIFÍCIL ====================== */
 
-    @Override
+   @Override
     public void insertPosition(int position, T element) {
-        // TODO: Insere um elemento em uma posição específica
-        throw new UnsupportedOperationException("Unimplemented method 'insertPosition'");
+        if (element == null) {
+            throw new IllegalArgumentException("Não é possivel inserir um elemento nulo");
+        }
+        if (position < 0) {
+            throw new IllegalArgumentException("Posição inválida");
+        }
+    
+        if (position == 0) {
+            if (this.isEmpty()) {
+                // Lista vazia, insere direto
+                this.data = element;
+                this.next = new RecursiveSingleLinkedListImpl<>();
+            } else {
+                // Lista não vazia, cria nó novo empurrando dados atuais para frente
+                RecursiveSingleLinkedListImpl<T> newNode = new RecursiveSingleLinkedListImpl<>();
+                newNode.data = this.data;
+                newNode.next = this.next;
+            
+                this.data = element;
+                this.next = newNode;
+            }
+        } else {
+            if (this.next == null) {
+                this.next = new RecursiveSingleLinkedListImpl<>();
+            }
+            this.next.insertPosition(position -1, element);
+        }
     }
 
     @Override
     public void removePosition(int position) {
-        // TODO: Remove o elemento na posição fornecida
-        throw new UnsupportedOperationException("Unimplemented method 'removePosition'");
+        if (this.isEmpty() || position < 0) {
+            throw new IllegalArgumentException("Não é possível remover um elemento de uma lista vázia ou de uma posição inválida");
+        }
+        if (position == 0) {
+            if (this.next != null) {
+                this.data = this.next.data;
+                this.next = this.next.next;
+            } else {
+                this.data = null;
+                this.next = null;
+            }
+        } else {
+            this.next.removePosition(position - 1);
+        }
+        
     }
 
     @Override
     public void removeValue(T element) {
-        // TODO: Remove a primeira ocorrência do elemento fornecido
-        throw new UnsupportedOperationException("Unimplemented method 'removeValue'");
+        if (this.isEmpty()) { //Se minha lista for vázia, não tenho que fazer nada
+            return;
+        }
+        if (this.data.equals(element)) {  //Encontrei uma data de um determinado nó, igual a element
+            if (this.next != null) {
+                this.data = this.next.data; //Substituindo o valor da esquerda com o da direita
+                this.next = this.next.next; //Substituindo o valor da esquerda com o da direita
+            } else {
+                this.data = null; //Como é o último elemento, eu só faço remover 
+                this.next = null; //Como é o último elemento, eu só faço remover 
+            }
+        } else {
+            if (this.next != null) //não é o último da lista
+            this.next.removeValue(element);
+        }
+
     }
 
     @Override
