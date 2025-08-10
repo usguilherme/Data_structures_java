@@ -130,9 +130,13 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
         if (isEmpty()) {
             throw new IllegalArgumentException("Não é possível remover algo, em uma linkedlist vázia");
         }
-        this.data = this.next.data;
-        this.next = this.next.next;
-
+        if (this.data == null || this.next.isEmpty()) {
+            this.data = null;
+            this.next = null;
+        } else {
+            this.data = this.next.data;
+            this.next = this.next.next;
+        }
     }
 
     @Override
