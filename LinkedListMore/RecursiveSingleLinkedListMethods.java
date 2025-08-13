@@ -1,6 +1,5 @@
 public class RecursiveSingleLinkedListMethods<T> implements LinkedList<T> {
 
-    // Supondo que você tenha um atributo para composição (pode ser modificado depois)
     private RecursiveSingleLinkedListImpl<T> node;
 
     public RecursiveSingleLinkedListMethods() {
@@ -8,55 +7,57 @@ public class RecursiveSingleLinkedListMethods<T> implements LinkedList<T> {
     }
 
     @Override
-    public boolean isEmpty() { //Verificando sé é vázio
-        return node == null || node.getData() == null;
+    public boolean isEmpty() {
+        return node == null || node.getData() == null; //Verificando se é vázio
     }
 
     @Override
     public int size() {
-        if (this.node.isEmpty()) { //Se meu atual nó for vázio
+        if (node.isEmpty()) { //não conta o vázio
             return 0;
         } else {
-            return 1 + this.node.getNext().size(); //Chamo a função size nele
+            return 1 + node.getNext().size(); //conta o nó com data diferente de vázio
         }
     }
 
     @Override
     public boolean contains(T element) {
-        if (element == null || this.node.isEmpty()) {
-            throw new IllegalArgumentException("Não é possivel analisar se um elemento está em uma linkedlist vázia, ou em um elemento nulo");
+        if (node.isEmpty() || element == null) {
+            throw new IllegalArgumentException("Erro");
         }
-        if (this.node.getData().equals(element)) { //Encontrei o elemento especifico
+        if (node.getData().equals(element)) {
             return true;
-        } else if (this.node.getNext() != null) { //evitar o NullPointerException
-            return node.getNext().contains(element); //Chamo a função recursiva para o próximo nó
-        } else {
-            return false;
+
+        } else if (node.getNext() != null) {
+            return node.getNext().contains(element); //Chamada recursiva
         }
+        return false; 
     }
 
     @Override
     public T search(T element) {
-        if (element == null || this.node.isEmpty()) {
-            throw new IllegalArgumentException("Não é possível analisar se um elemento está em uma linked lista vázia, ou se o elemento é nulo");
+        if (node.isEmpty() || element == null) {
+            throw new IllegalArgumentException("Erro");
         }
-        if (this.node.getData().equals(element)) { //Achei o elemento
-            return this.node.getData();
-        } else if (this.node.getNext() != null) {
-            return this.node.getNext().search(element); //Chamada recursiva
-        } else {
-            return null;
+        if (node.getData().equals(element)) {
+            return node.getData();
+            
+        } else if (node.getNext() != null) {
+            return node.getNext().search(element); //Chamada recursiva
         }
+        return null; 
     }
+
     @Override
-    public T searchPosition(int position) {
-        if (position < 0 || this.node.isEmpty()) {
-            throw new IllegalArgumentException("Não é possível verificar se há algum elemento em uma posição, se a posição é negativo ou sé a linkedlist é vázia");
+    public T searchPosition(int position) { //3
+        if (node.isEmpty() || position < 0) {
+            throw new IllegalArgumentException("Erro");
         }
-        if (position == 0) {
-            return this.node.getData();
+
+        if(position == 0) { //Achei a posição
+            return node.getData();
         } else {
-            return this.node.getNext().searchPosition(position - 1); //Chamada recursiva
+            return node.getNext().searchPosition(position - 1); //Reduço a posição
         }
     }
 
@@ -67,7 +68,20 @@ public class RecursiveSingleLinkedListMethods<T> implements LinkedList<T> {
 
     @Override
     public void insertFirst(T element) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (element == null) {
+            throw new IllegalArgumentException("Erro");
+        }
+        if (node.isEmpty()) {
+            node.setData(element);
+            node.setNext( new RecursiveSingleLinkedListImpl<>());
+        } else {
+            RecursiveSingleLinkedListImpl newNode = new RecursiveSingleLinkedListImpl<>();
+            newNode.setData(node.getData());
+            newNode.setNext(node.getNext());
+            
+            node.setData(element);
+            node.setNext(newNode);
+        }
     }
 
     @Override
