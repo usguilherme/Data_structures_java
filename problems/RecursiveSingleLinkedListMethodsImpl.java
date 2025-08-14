@@ -229,7 +229,7 @@ public class RecursiveSingleLinkedListMethodsImpl<T> implements LinkedList<T> {
             return current; // nó único ou final
         }
         RecursiveSingleLinkedListImpl<T> newHead = reverse(current.getNext());
-        current.getNext().setNext(current);
+        current.getNext().setNext(current); //Proximo do meu próximo, vai ser meu atual
         current.setNext(new RecursiveSingleLinkedListImpl<>());
         return newHead;
     }
