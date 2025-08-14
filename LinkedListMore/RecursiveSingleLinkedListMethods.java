@@ -11,7 +11,7 @@ public class RecursiveSingleLinkedListMethods<T> implements LinkedList<T> {
         return node == null || node.getData() == null; //Verificando se é vázio
     }
 
-    @Override
+    @Override //Certo
     public int size() {
         if (node.isEmpty()) { //não conta o vázio
             return 0;
@@ -20,7 +20,7 @@ public class RecursiveSingleLinkedListMethods<T> implements LinkedList<T> {
         }
     }
 
-    @Override
+    @Override //Certo
     public boolean contains(T element) {
         if (node.isEmpty() || element == null) {
             throw new IllegalArgumentException("Erro");
@@ -28,13 +28,13 @@ public class RecursiveSingleLinkedListMethods<T> implements LinkedList<T> {
         if (node.getData().equals(element)) {
             return true;
 
-        } else if (node.getNext() != null) {
+        } else if (!node.getNext().isEmpty()) {
             return node.getNext().contains(element); //Chamada recursiva
         }
         return false; 
     }
 
-    @Override
+    @Override //Certo
     public T search(T element) {
         if (node.isEmpty() || element == null) {
             throw new IllegalArgumentException("Erro");
@@ -42,13 +42,13 @@ public class RecursiveSingleLinkedListMethods<T> implements LinkedList<T> {
         if (node.getData().equals(element)) {
             return node.getData();
             
-        } else if (node.getNext() != null) {
+        } else if (!node.getNext().isEmpty()) {
             return node.getNext().search(element); //Chamada recursiva
         }
         return null; 
     }
 
-    @Override
+    @Override //CERTO
     public T searchPosition(int position) { //3
         if (node.isEmpty() || position < 0) {
             throw new IllegalArgumentException("Erro");
@@ -56,17 +56,19 @@ public class RecursiveSingleLinkedListMethods<T> implements LinkedList<T> {
 
         if(position == 0) { //Achei a posição
             return node.getData();
-        } else {
+
+        } else if (!node.getNext().isEmpty()){ //Erro do null
             return node.getNext().searchPosition(position - 1); //Reduço a posição
-        }
+        } 
+        return null;
     }
 
-    @Override
-    public T[] toArray() {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+    //@Override
+    //public T[] toArray() {
+    //}
 
-    @Override
+
+    @Override //CERTO
     public void insertFirst(T element) {
         if (element == null) {
             throw new IllegalArgumentException("Erro");
@@ -86,32 +88,94 @@ public class RecursiveSingleLinkedListMethods<T> implements LinkedList<T> {
 
     @Override
     public void insertLast(T element) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (element == null) {
+            throw new IllegalArgumentException("Erro, elemento nulo");
+        }
+        if (node.isEmpty()) {
+            node.setData(element);
+            node.setNext(new RecursiveSingleLinkedListImpl<>());
+        } else {
+            node.getNext().insertLast(element);
+        }        
+
     }
 
-    @Override
+    @Override //Certo, para remover um primeiro elemento, basta atribuir o valor do nó atual como o valor do proximo nó dele
     public void removeFirst() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (node.isEmpty()) {
+            throw new IllegalArgumentException("ERRO, NÃO É POSSÍVEL REMOVER ALGO DE UMA LINKEDLIST VÁZIA");
+        }
+        node.setData(node.getNext().getData());
+        node.setNext(node.getNext().getNext());
     }
 
-    @Override
+    @Override //Certo
     public void removeLast() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (node.isEmpty()) {
+            throw new IllegalArgumentException("ERRO, NÃO É PÓSSIVEL REMOVER ALGO DE UMA LINKEDLIST VÁZIA");
+        }
+
+        if (node.getNext().isEmpty()) {
+            node.setData(null); //coloco apenas o data como null, deixo o next normal
+        } else {
+            node.getNext().removeLast(); //Recursao
+        }
     }
 
     @Override
     public void insertPosition(int position, T element) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (position < 0 || element == null) {
+            throw new IllegalArgumentException("ERRO");
+        }
+
+        if (position == 0) {
+            if (node.isEmpty()) { //último elemento
+                node.setData(element);
+                node.setNext(new RecursiveSingleLinkedListImpl<>());
+            } else {
+                RecursiveSingleLinkedListImpl newNode = new RecursiveSingleLinkedListImpl<>();
+                newNode.setData(node.getData());
+                newNode.setNext(node.getNext());
+
+                node.setData(element);
+                node.setNext(newNode);
+            } 
+        } else {
+            node.getNext().insertPosition(position - 1, element);
+        }
     }
 
     @Override
     public void removePosition(int position) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (position < 0) {
+            throw new IllegalArgumentException("Erro, posição menor que zero");
+        }
+        if (node.isEmpty()) {
+            throw new IllegalArgumentException("Erro, lista vázia");
+        }
+        if (position == 0) {
+            node.setData(node.getNext().getData());
+            node.setNext(node.getNext().getNext());
+
+        } else {
+            node.getNext().removePosition(position - 1);
+        }
     }
 
     @Override
     public void removeValue(T element) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (element == null) {
+            throw new IllegalArgumentException("ERRO, ELEMENTO NULO");
+        }
+        if (node.isEmpty()) { //Lista ou elemento vázio
+            return;
+        }
+        if (node.getData().equals(element)) { //Achei
+            node.setData(node.getNext().getData());
+            node.setNext(node.getNext().getNext());
+        } else { //Chamada recursiva
+            node.getNext().removeValue(element);
+        }
     }
 
     @Override
