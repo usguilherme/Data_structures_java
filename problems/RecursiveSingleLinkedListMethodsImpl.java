@@ -197,11 +197,6 @@ public class RecursiveSingleLinkedListMethodsImpl<T> implements LinkedList<T> {
     }
 
     @Override
-    public boolean isPalindrome() {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
-
-    @Override
     public T findMiddle() {
         if (node.isEmpty()) {
             return null;
@@ -237,5 +232,53 @@ public class RecursiveSingleLinkedListMethodsImpl<T> implements LinkedList<T> {
     @Override
     public T[] toArray() {
         throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    public T removeMiddle() {
+        if (node.isEmpty()) {
+            return null;
+        }
+        return removeMiddleAux(node,node);
+    }
+
+    private T removeMiddleAux(RecursiveSingleLinkedListImpl<T> slow, RecursiveSingleLinkedListImpl<T> fast) {
+        if (fast.isEmpty() || fast.getNext().isEmpty()) {  //Caso de parada, se for o último elemento ou já for vázio
+            T result = slow.getData(); //Varíavel de controle
+
+            if (slow.getNext() == null) { //Sendo o último da linkedlist, só faço atribuir o data como null
+                slow.setNext(null);
+            } else { //não sendo o último da linkedlist, atribuo o meu nó atual como os valores do seu sucessor
+                slow.setData(slow.getNext().getData());
+                slow.setNext(slow.getNext().getNext());
+            }
+            return result;
+        }
+
+        return removeMiddleAux(slow.getNext(), fast.getNext().getNext()); //Chamada recursiva
+    }
+
+    public boolean isPalindrome() {
+        return isPalindromeAux(node, size()) != null;
+    }
+
+    private RecursiveSingleLinkedListImpl<T> isPalindromeAux(RecursiveSingleLinkedListImpl<T> array, int length) {
+        if (array.isEmpty() || length == 0) { //Caso base, saída
+            return array;
+        }
+        if (length == 1) { //Apenas retorno o elemento do proximo
+            return array.getNext();
+        }
+        
+        RecursiveSingleLinkedListImpl<T> comparador = isPalindromeAux(array.getNext(), length - 2); //Criar a variavel para eu comparar, verificando os elementos
+        if (comparador == null) {
+            return null;
+        }
+
+        if (!array.getData().equals(comparador.getData())) { //se não for igual
+            return null;
+        }
+
+        return comparador.getNext(); //chamada recursiva
+
     }
 }

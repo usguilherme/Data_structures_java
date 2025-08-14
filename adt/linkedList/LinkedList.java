@@ -15,6 +15,7 @@ public interface LinkedList<T> {
     T[] toArray();
     boolean contains(T element);
     boolean isPalindrome();
-    T findMiddle();
+    T findMiddle(); 
     void reverse();
+    T removeMiddle(); 
 }
